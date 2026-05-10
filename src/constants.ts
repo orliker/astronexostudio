@@ -102,20 +102,84 @@ export const translations = {
       bullets: ["Action-oriented design", "Premium custom visual flow", "Automated capture systems"]
     },
     portfolio: {
-      tag: "Experience",
-      headline: "Concept {previews.}",
-      subheadline: "See how we transform different business ideas into professional digital experiences.",
-      c1: "Esthetic & Spa",
-      c1d: "Clean layout focused on booking and serenity.",
-      c2: "Coffee Shop",
-      c2d: "Vibrant and clear catalog for food and drinks.",
-      c3: "Tattoo Studio",
-      c3d: "Bold visual portfolio and direct contact system.",
-      c4: "Legal Services",
-      c4d: "Serious, trustworthy and informative presence.",
-      view: "View Preview",
-      typeConcept: "Concept Preview",
-      typeProject: "In Development"
+      tag: "Real demos",
+      headline: "Real demos for different types of {businesses.}",
+      subheadline: "We don't use generic templates. We create digital experiences adapted to each business type, brand and goal: bookings, quotes, sales, courses, catalogs or lead generation.",
+      note: "Each demo is a visual base. The final project is adapted to each client's brand, content, goals and budget.",
+      filters: {
+        all: "All",
+        beauty: "Beauty",
+        cleaning: "Cleaning",
+        tattoo: "Tattoo",
+        restaurant: "Restaurant",
+        store: "Store",
+        barber: "Barber"
+      },
+      buttons: {
+        viewLive: "View live",
+        wantSimilar: "I want something like this"
+      },
+      ctaBlock: {
+        title: "Do you have a similar business?",
+        text: "I can prepare a visual direction adapted to your brand, niche and goal: bookings, quotes, sales, courses, catalog or lead generation.",
+        button: "Request a visual idea"
+      },
+      demos: [
+        {
+          id: "anderbrows",
+          name: "Ander Brows",
+          niche: "Beauty / Brows / Training",
+          category: "beauty",
+          desc: "Premium landing page for brows, micropigmentation, beauty services and training. Designed to showcase results, build trust, present courses and drive WhatsApp enquiries.",
+          cta: "View beauty demo",
+          url: "https://anderbrows.vercel.app/"
+        },
+        {
+          id: "cleanb",
+          name: "CleanB",
+          niche: "Cleaning / Local services",
+          category: "cleaning",
+          desc: "Professional website for cleaning businesses, local services, Airbnb cleaning and maintenance. Focused on building trust, explaining services and generating quote requests.",
+          cta: "View cleaning demo",
+          url: "https://cleanb.vercel.app/"
+        },
+        {
+          id: "kire",
+          name: "KIRE Tattoo Studio",
+          niche: "Tattoo / Visual artists",
+          category: "tattoo",
+          desc: "Visual portfolio for tattoo artists, creative studios and independent artists. Built to showcase styles, work, booking process and brand personality.",
+          cta: "View tattoo demo",
+          url: "https://kire-tattoo-studio.vercel.app/"
+        },
+        {
+          id: "curb",
+          name: "CURB",
+          niche: "Restaurant / Café / Food brand",
+          category: "restaurant",
+          desc: "Web experience for restaurants, cafés, brunch spots and food brands. Designed to present atmosphere, menu, story, bookings and a strong visual identity.",
+          cta: "View restaurant demo",
+          url: "https://curbwebpreviewe.vercel.app/"
+        },
+        {
+          id: "mundodepapel",
+          name: "Mundo de Papel Portugal",
+          niche: "Personalized store / Catalog / Handmade products",
+          category: "store",
+          desc: "Catalog website for personalized products, gifts, decoration and handmade items. Designed to showcase categories, inspire customers and drive custom requests through WhatsApp.",
+          cta: "View store demo",
+          url: "https://mundodepapel-six.vercel.app/"
+        },
+        {
+          id: "domcortes",
+          name: "Dom Cortês",
+          niche: "Barbershop / Premium men's grooming",
+          category: "barber",
+          desc: "Premium website for barbershops, men's grooming and specialized services such as haircuts, beard care and hair prosthesis. Designed to build trust, show style and make bookings easier.",
+          cta: "View barbershop demo",
+          url: "https://cortes-cl-ssicos.vercel.app/"
+        }
+      ]
     },
     comparison: {
       tag: "The Transformation",
@@ -383,20 +447,84 @@ export const translations = {
       bullets: ["Diseño enfocado a la acción", "Flujo visual premium a medida", "Sistemas de captación automáticos"]
     },
     portfolio: {
-      tag: "Experiencia",
-      headline: "Conceptos y {previews.}",
-      subheadline: "Mira cómo transformamos diferentes ideas de negocio en experiencias digitales profesionales.",
-      c1: "Estética & Spa",
-      c1d: "Layout limpio enfocado en reservas y serenidad.",
-      c2: "Cafetería",
-      c2d: "Catálogo vibrante y claro para comida y bebidas.",
-      c3: "Estudio de Tatuajes",
-      c3d: "Portafolio visual audaz y sistema de contacto directo.",
-      c4: "Servicios Legales",
-      c4d: "Presencia seria, confiable e informativa.",
-      view: "Ver Preview",
-      typeConcept: "Concept Preview",
-      typeProject: "En Desarrollo"
+      tag: "Demos reales",
+      headline: "Demos reales para distintos tipos de {negocio.}",
+      subheadline: "No usamos plantillas genéricas. Creamos experiencias digitales adaptadas al tipo de negocio, su marca y su objetivo: reservas, presupuestos, ventas, cursos, catálogo o captación de leads.",
+      note: "Cada demo es una base visual. El proyecto final se adapta a la marca, contenido, objetivos y presupuesto de cada cliente.",
+      filters: {
+        all: "Todos",
+        beauty: "Beauty",
+        cleaning: "Limpieza",
+        tattoo: "Tattoo",
+        restaurant: "Restaurante",
+        store: "Tienda",
+        barber: "Barbería"
+      },
+      buttons: {
+        viewLive: "Ver en vivo",
+        wantSimilar: "Quiero algo así"
+      },
+      ctaBlock: {
+        title: "¿Tienes un negocio parecido?",
+        text: "Puedo preparar una idea visual adaptada a tu marca, tu nicho y tu objetivo: reservas, presupuestos, ventas, cursos, catálogo o captación de leads.",
+        button: "Pedir una idea visual"
+      },
+      demos: [
+        {
+          id: "anderbrows",
+          name: "Ander Brows",
+          niche: "Beauty / Cejas / Formación",
+          category: "beauty",
+          desc: "Landing premium para servicios de cejas, micropigmentación, estética y formaciones. Diseñada para mostrar resultados, transmitir confianza, presentar cursos y facilitar solicitudes por WhatsApp.",
+          cta: "Ver demo beauty",
+          url: "https://anderbrows.vercel.app/"
+        },
+        {
+          id: "cleanb",
+          name: "CleanB",
+          niche: "Limpieza / Servicios locales",
+          category: "cleaning",
+          desc: "Página profesional para negocios de limpieza, servicios locales, Airbnb cleaning y mantenimiento. Enfocada en transmitir confianza, explicar servicios y generar solicitudes de presupuesto.",
+          cta: "Ver demo limpieza",
+          url: "https://cleanb.vercel.app/"
+        },
+        {
+          id: "kire",
+          name: "KIRE Tattoo Studio",
+          niche: "Tatuajes / Artistas visuales",
+          category: "tattoo",
+          desc: "Portfolio visual para tatuadores, estudios creativos y artistas independientes. Pensado para mostrar estilos, trabajos, proceso de reserva y personalidad de marca.",
+          cta: "Ver demo tattoo",
+          url: "https://kire-tattoo-studio.vercel.app/"
+        },
+        {
+          id: "curb",
+          name: "CURB",
+          niche: "Restaurante / Café / Food brand",
+          category: "restaurant",
+          desc: "Experiencia web para restaurantes, cafés, brunch spots y marcas gastronómicas. Diseñada para presentar ambiente, menú, historia, reservas y una identidad visual fuerte.",
+          cta: "Ver demo restaurante",
+          url: "https://curbwebpreviewe.vercel.app/"
+        },
+        {
+          id: "mundodepapel",
+          name: "Mundo de Papel Portugal",
+          niche: "Tienda personalizada / Catálogo / Productos artesanales",
+          category: "store",
+          desc: "Web de catálogo para productos personalizados, regalos, decoración y artículos artesanales. Pensada para mostrar categorías, inspirar al cliente y llevar solicitudes personalizadas a WhatsApp.",
+          cta: "Ver demo tienda",
+          url: "https://mundodepapel-six.vercel.app/"
+        },
+        {
+          id: "domcortes",
+          name: "Dom Cortês",
+          niche: "Barbería / Cuidado masculino premium",
+          category: "barber",
+          desc: "Página premium para barberías, estética masculina y servicios especializados como cortes, barba y prótesis capilar. Diseñada para transmitir confianza, estilo y facilitar reservas.",
+          cta: "Ver demo barbería",
+          url: "https://cortes-cl-ssicos.vercel.app/"
+        }
+      ]
     },
     comparison: {
       tag: "La Transformación",
@@ -665,20 +793,84 @@ export const translations = {
       bullets: ["Design focado na ação", "Fluxo visual premium à medida", "Sistemas de captação automáticos"]
     },
     portfolio: {
-      tag: "Experiência",
-      headline: "Conceitos e {previews.}",
-      subheadline: "Veja como transformamos diferentes ideias de negócio em experiências digitais profissionais.",
-      c1: "Estética & Spa",
-      c1d: "Layout limpo focado em reservas e serenidade.",
-      c2: "Cafetaria",
-      c2d: "Catálogo vibrante e claro para comida e bebidas.",
-      c3: "Estúdio de Tatuagens",
-      c3d: "Portefólio visual audaz e sistema de contacto direto.",
-      c4: "Serviços Jurídicos",
-      c4d: "Presença séria, confiável e informativa.",
-      view: "Ver Preview",
-      typeConcept: "Concept Preview",
-      typeProject: "Em Desenvolvimento"
+      tag: "Demos reais",
+      headline: "Demos reais para diferentes tipos de {negócio.}",
+      subheadline: "Não usamos templates genéricos. Criamos experiências digitais adaptadas ao tipo de negócio, à marca e ao objetivo: reservas, orçamentos, vendas, cursos, catálogo ou captação de leads.",
+      note: "Cada demo é uma base visual. O projeto final é adaptado à marca, conteúdo, objetivos e orçamento de cada cliente.",
+      filters: {
+        all: "Todos",
+        beauty: "Beauty",
+        cleaning: "Limpeza",
+        tattoo: "Tattoo",
+        restaurant: "Restaurante",
+        store: "Loja",
+        barber: "Barbearia"
+      },
+      buttons: {
+        viewLive: "Ver ao vivo",
+        wantSimilar: "Quero algo assim"
+      },
+      ctaBlock: {
+        title: "Tens um negócio parecido?",
+        text: "Posso preparar uma ideia visual adaptada à tua marca, ao teu nicho e ao teu objetivo: reservas, orçamentos, vendas, cursos, catálogo ou captação de leads.",
+        button: "Pedir uma ideia visual"
+      },
+      demos: [
+        {
+          id: "anderbrows",
+          name: "Ander Brows",
+          niche: "Beauty / Sobrancelhas / Formação",
+          category: "beauty",
+          desc: "Landing premium para serviços de sobrancelhas, micropigmentação, estética e formações. Criada para mostrar resultados, transmitir confiança, apresentar cursos e facilitar pedidos por WhatsApp.",
+          cta: "Ver demo beauty",
+          url: "https://anderbrows.vercel.app/"
+        },
+        {
+          id: "cleanb",
+          name: "CleanB",
+          niche: "Limpeza / Serviços locais",
+          category: "cleaning",
+          desc: "Página profissional para negócios de limpeza, serviços locais, Airbnb cleaning e manutenção. Focada em transmitir confiança, explicar serviços e gerar pedidos de orçamento.",
+          cta: "Ver demo limpeza",
+          url: "https://cleanb.vercel.app/"
+        },
+        {
+          id: "kire",
+          name: "KIRE Tattoo Studio",
+          niche: "Tatuagens / Artistas visuais",
+          category: "tattoo",
+          desc: "Portefólio visual para tatuadores, estúdios criativos e artistas independentes. Pensado para mostrar estilos, trabalhos, processo de reserva e personalidade da marca.",
+          cta: "Ver demo tattoo",
+          url: "https://kire-tattoo-studio.vercel.app/"
+        },
+        {
+          id: "curb",
+          name: "CURB",
+          niche: "Restaurante / Café / Marca gastronómica",
+          category: "restaurant",
+          desc: "Experiência web para restaurantes, cafés, brunch spots e marcas gastronómicas. Criada para apresentar ambiente, menu, história, reservas e uma identidade visual forte.",
+          cta: "Ver demo restaurante",
+          url: "https://curbwebpreviewe.vercel.app/"
+        },
+        {
+          id: "mundodepapel",
+          name: "Mundo de Papel Portugal",
+          niche: "Loja personalizada / Catálogo / Produtos artesanais",
+          category: "store",
+          desc: "Website de catálogo para produtos personalizados, presentes, decoração e artigos artesanais. Criado para mostrar categorias, inspirar clientes e levar pedidos personalizados para WhatsApp.",
+          cta: "Ver demo loja",
+          url: "https://mundodepapel-six.vercel.app/"
+        },
+        {
+          id: "domcortes",
+          name: "Dom Cortês",
+          niche: "Barbearia / Cuidado masculino premium",
+          category: "barber",
+          desc: "Página premium para barbearias, estética masculina e serviços especializados como cortes, barba e prótese capilar. Criada para transmitir confiança, estilo e facilitar reservas.",
+          cta: "Ver demo barbearia",
+          url: "https://cortes-cl-ssicos.vercel.app/"
+        }
+      ]
     },
     comparison: {
       tag: "A Transformação",

@@ -107,6 +107,83 @@ test.describe('AstroNexo Studio - premium audit', () => {
     }
   });
 
+  test('portfolio section renders 6 demos and filters correctly', async ({ page }) => {
+    const { errors } = collectConsole(page);
+    await page.goto(BASE, { waitUntil: 'networkidle' });
+
+    // Anchor exists in navbar
+    const navPortfolioLink = page.locator('nav a[href="#portfolio"]').first();
+    await expect(navPortfolioLink).toBeVisible();
+
+    // Scroll to portfolio
+    await page.evaluate(() => document.querySelector('#portfolio')?.scrollIntoView({ block: 'start' }));
+    await page.waitForTimeout(700);
+
+    // 6 cards rendered initially (filter "All")
+    const cards = page.locator('#portfolio article');
+    await expect(cards).toHaveCount(6);
+
+    // Each card has working external link with target=_blank, rel=noopener noreferrer
+    const externalLinks = page.locator('#portfolio article a[target="_blank"]');
+    await expect(externalLinks).toHaveCount(6);
+    for (let i = 0; i < 6; i++) {
+      const link = externalLinks.nth(i);
+      await expect(link).toHaveAttribute('rel', /noopener.*noreferrer|noreferrer.*noopener/);
+      const href = await link.getAttribute('href');
+      expect(href, 'demo URL must be a vercel app').toMatch(/^https:\/\/.+\.vercel\.app\/?$/);
+      // Make sure KURB NU is NOT included
+      expect(href).not.toMatch(/kurb-nu/);
+    }
+
+    // Click "Tattoo" filter and verify only 1 card remains
+    const tattooFilter = page.locator('#portfolio button[role="tab"]').filter({ hasText: /tattoo/i }).first();
+    await tattooFilter.click();
+    await page.waitForTimeout(700);
+    await expect(cards).toHaveCount(1);
+
+    // Reset to All
+    const allFilter = page.locator('#portfolio button[role="tab"]').first();
+    await allFilter.click();
+    await page.waitForTimeout(700);
+    await expect(cards).toHaveCount(6);
+
+    // CTA "I want something like this" links to #contact
+    const wantSimilar = page.locator('#portfolio article a[href="#contact"]').first();
+    await expect(wantSimilar).toBeVisible();
+
+    await page.screenshot({ path: 'e2e/screenshots/06-portfolio.png', fullPage: false });
+
+    expect(errors).toEqual([]);
+  });
+
+  test('portfolio mobile: no horizontal overflow, filters scroll horizontally', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(BASE, { waitUntil: 'networkidle' });
+
+    // Ensure layout settled: trigger ScrollTrigger refresh and wait for cards to mount
+    await page.waitForSelector('#portfolio article', { state: 'attached' });
+    await page.evaluate(() => {
+      const el = document.querySelector('#portfolio') as HTMLElement | null;
+      if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'instant' as ScrollBehavior });
+    });
+    // Cards animate in with stagger ~ 0.6s; give them time
+    await page.waitForTimeout(1500);
+    await page.locator('#portfolio article').first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(400);
+
+    const overflow = await page.evaluate(() => {
+      return document.documentElement.scrollWidth - document.documentElement.clientWidth;
+    });
+    expect(overflow, 'No global horizontal overflow on portfolio mobile').toBeLessThanOrEqual(2);
+
+    await page.screenshot({ path: 'e2e/screenshots/07-portfolio-mobile.png', fullPage: false });
+
+    // Filters card visible
+    await page.locator('#portfolio button[role="tab"]').first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: 'e2e/screenshots/08-portfolio-mobile-filters.png', fullPage: false });
+  });
+
   test('language switcher updates html lang and persists', async ({ page }) => {
     await page.goto(BASE, { waitUntil: 'networkidle' });
     const enBtn = page.locator('button[aria-label="Switch to EN"]').first();

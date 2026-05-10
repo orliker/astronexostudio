@@ -11,6 +11,7 @@ import { useScrollReveal, useParallax, useTilt, useMagnetic, useCountUp } from '
 import { PremiumLink, PremiumButton } from './components/PremiumButton';
 import { Aurora, Stars } from './components/Aurora';
 import { RevealText } from './components/RevealText';
+import { PortfolioSection } from './components/PortfolioSection';
 import {
   MessageSquare,
   Zap,
@@ -134,6 +135,7 @@ const Navbar = ({ lang, setLang, t }: { lang: Lang, setLang: (l: Lang) => void, 
 
   const navLinks = [
     { name: t.nav.services, href: '#services' },
+    { name: t.nav.portfolio, href: '#portfolio' },
     { name: t.nav.process, href: '#process' },
     { name: t.nav.pricing, href: '#pricing' },
     { name: t.nav.faq, href: '#faq' }
@@ -1887,6 +1889,7 @@ const Footer = ({ t, lang, setLang }: { t: any, lang: Lang, setLang: (l: Lang) =
     { label: t.nav.pricing, href: '#pricing' }
   ];
   const companyLinks = [
+    { label: t.nav.portfolio, href: '#portfolio' },
     { label: t.nav.faq, href: '#faq' },
     { label: t.nav.cta, href: '#contact' }
   ];
@@ -2114,6 +2117,7 @@ export default function App() {
         <ComparisonSection t={t} />
         <SolutionSection t={t} />
         <ServicesSection t={t} />
+        <PortfolioSection t={t} />
         <WorkflowVisual t={t} />
         <HowWeWork t={t} />
         <Pricing t={t} />
