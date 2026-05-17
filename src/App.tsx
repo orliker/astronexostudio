@@ -173,17 +173,11 @@ const Navbar = ({ lang, setLang, t }: { lang: Lang, setLang: (l: Lang) => void, 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const goToContact = () => {
-    setMobileMenuOpen(false);
-    const el = document.getElementById('contact');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   const navLinks = [
     { name: t.nav.services, href: '#services' },
     { name: t.nav.portfolio, href: '#portfolio' },
     { name: t.nav.process, href: '#process' },
-    { name: t.nav.pricing, href: '#pricing' },
     { name: t.nav.faq, href: '#faq' }
   ];
 
@@ -255,14 +249,17 @@ const Navbar = ({ lang, setLang, t }: { lang: Lang, setLang: (l: Lang) => void, 
             ))}
           </div>
 
-          <button
-            type="button"
-            onClick={goToContact}
-            className="px-6 py-2.5 bg-white text-black text-xs font-bold rounded-full hover:bg-blue-50 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-95 uppercase tracking-widest cursor-pointer"
-            aria-label={t.nav.cta}
+          <a
+            href={buildWhatsAppUrl(t.contact.whatsappPrefill)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-flex items-center gap-2 px-6 py-2.5 bg-white text-black text-xs font-bold rounded-full hover:bg-blue-50 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_28px_rgba(96,165,250,0.35)] active:scale-95 uppercase tracking-widest cursor-pointer overflow-hidden"
+            aria-label={t.cta.talkOnWhatsapp}
           >
-            {t.nav.cta}
-          </button>
+            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[1100ms] ease-out bg-gradient-to-r from-transparent via-brand-blue/20 to-transparent" aria-hidden="true" />
+            <MessageSquare size={14} className="relative" aria-hidden="true" />
+            <span className="relative">{t.cta.talkOnWhatsapp}</span>
+          </a>
         </div>
 
         <button
@@ -317,13 +314,16 @@ const Navbar = ({ lang, setLang, t }: { lang: Lang, setLang: (l: Lang) => void, 
                   ))}
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={goToContact}
-                className="w-full py-5 text-center rounded-2xl bg-white text-black font-black uppercase tracking-[0.2em] text-xs shadow-xl active:scale-[0.98] transition-all"
+              <a
+                href={buildWhatsAppUrl(t.contact.whatsappPrefill)}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-5 flex items-center justify-center gap-2.5 rounded-2xl bg-white text-black font-black uppercase tracking-[0.2em] text-xs shadow-xl active:scale-[0.98] transition-all"
               >
-                {t.nav.cta}
-              </button>
+                <MessageSquare size={16} aria-hidden="true" />
+                {t.cta.talkOnWhatsapp}
+              </a>
             </div>
           </motion.div>
         )}
@@ -1541,8 +1541,14 @@ const FAQ = ({ t }: { t: any }) => {
           
           <div className="space-y-4 md:space-y-6">
              {faqs.map((faq: any, i: number) => (
-                <div key={i} className={cn(
-                   "rounded-[1.5rem] md:rounded-[2.5rem] border transition-all duration-500 overflow-hidden",
+                <motion.div
+                   key={i}
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true, amount: 0.4 }}
+                   transition={{ delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                   className={cn(
+                   "card-premium rounded-[1.5rem] md:rounded-[2.5rem] border transition-all duration-500 overflow-hidden",
                    openIndex === i ? "bg-white/[0.04] border-white/10" : "bg-white/[0.02] border-white/5 hover:border-white/10"
                 )}>
                    <button
@@ -1578,7 +1584,7 @@ const FAQ = ({ t }: { t: any }) => {
                         </motion.div>
                       )}
                    </AnimatePresence>
-                </div>
+                </motion.div>
              ))}
           </div>
        </div>
@@ -1890,13 +1896,14 @@ const ComparisonSection = ({ t }: { t: any }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
           {/* Before */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] bg-slate-900/50 border border-red-500/10 relative overflow-hidden group"
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="card-premium p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] bg-slate-900/50 border border-red-500/10 relative overflow-hidden group"
           >
-            <div className="absolute top-0 right-0 p-4 md:p-6 opacity-10">
+            <div className="absolute top-0 right-0 p-4 md:p-6 opacity-10 float-a">
               <TrendingUp size={60} className="rotate-180 text-red-500 md:w-20 md:h-20" />
             </div>
             <h3 className="text-lg md:text-xl font-bold text-red-400 mb-6 md:mb-8 flex items-center gap-3">
@@ -1905,22 +1912,30 @@ const ComparisonSection = ({ t }: { t: any }) => {
             </h3>
             <ul className="space-y-3 md:space-y-4">
               {beforeList.map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-slate-500 text-xs md:text-sm font-medium line-through decoration-red-500/30">
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + i * 0.08, duration: 0.5 }}
+                  className="flex items-center gap-3 text-slate-500 text-xs md:text-sm font-medium line-through decoration-red-500/30"
+                >
                   <X size={14} className="text-red-500/50 shrink-0" />
                   {item}
-                </li>
+                </motion.li>
               ))}
             </ul>
           </motion.div>
 
           {/* After */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] bg-brand-blue/5 border border-brand-blue/20 relative overflow-hidden group shadow-2xl shadow-blue-500/5"
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="card-premium p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] bg-brand-blue/5 border border-brand-blue/20 relative overflow-hidden group shadow-2xl shadow-blue-500/5"
           >
-            <div className="absolute top-0 right-0 p-4 md:p-6 opacity-10">
+            <div className="absolute top-0 right-0 p-4 md:p-6 opacity-10 float-c">
               <TrendingUp size={60} className="text-brand-blue md:w-20 md:h-20" />
             </div>
             <h3 className="text-lg md:text-xl font-bold text-brand-blue mb-6 md:mb-8 flex items-center gap-3">
@@ -1929,10 +1944,17 @@ const ComparisonSection = ({ t }: { t: any }) => {
             </h3>
             <ul className="space-y-3 md:space-y-4">
               {afterList.map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-white text-xs md:text-sm font-medium">
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: 12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + i * 0.08, duration: 0.5 }}
+                  className="flex items-center gap-3 text-white text-xs md:text-sm font-medium"
+                >
                   <CheckCircle2 size={14} className="text-brand-blue shrink-0" />
                   {item}
-                </li>
+                </motion.li>
               ))}
             </ul>
             <div className="mt-8 md:mt-10 p-3 md:p-4 rounded-2xl bg-blue-500/10 border border-blue-500/10 text-brand-blue text-[10px] font-bold text-center uppercase tracking-widest leading-none">
@@ -2186,7 +2208,6 @@ export default function App() {
         <PortfolioSection t={t} />
         <WorkflowVisual t={t} />
         <HowWeWork t={t} />
-        <Pricing t={t} />
         <Testimonials t={t} />
         <FAQ t={t} />
         <ContactSection t={t} />
