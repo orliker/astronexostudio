@@ -34,9 +34,24 @@ export const Aurora = ({ className = '' }: { className?: string }) => {
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
       aria-hidden="true"
     >
-      <div className="aurora-orb absolute top-[10%] left-[8%] w-[420px] h-[420px] rounded-full bg-blue-600/20 blur-[120px]" />
-      <div className="aurora-orb absolute top-[40%] right-[5%] w-[460px] h-[460px] rounded-full bg-violet-600/20 blur-[140px]" />
-      <div className="aurora-orb absolute bottom-[5%] left-[35%] w-[380px] h-[380px] rounded-full bg-cyan-500/15 blur-[120px]" />
+      {/* Fine conic light sweep behind everything for editorial depth */}
+      <div className="absolute left-1/2 top-[-20%] h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-[conic-gradient(from_180deg_at_50%_50%,rgba(59,130,246,0.10),rgba(139,92,246,0.06),rgba(6,182,212,0.08),rgba(59,130,246,0.10))] blur-[130px] opacity-70" />
+
+      <div className="aurora-orb absolute top-[8%] left-[6%] w-[460px] h-[460px] rounded-full bg-blue-600/25 blur-[130px]" />
+      <div className="aurora-orb absolute top-[38%] right-[3%] w-[500px] h-[500px] rounded-full bg-violet-600/22 blur-[150px]" />
+      <div className="aurora-orb absolute bottom-[2%] left-[32%] w-[420px] h-[420px] rounded-full bg-cyan-500/18 blur-[130px]" />
+
+      {/* Faint grid for a precise, engineered feel */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          maskImage: 'radial-gradient(ellipse 80% 60% at 50% 35%, #000 30%, transparent 75%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 35%, #000 30%, transparent 75%)',
+        }}
+      />
     </div>
   );
 };

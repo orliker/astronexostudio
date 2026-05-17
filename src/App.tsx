@@ -92,6 +92,52 @@ const renderText = (text: string) => {
 };
 
 // --- Helper Components ---
+
+// Slim gradient progress bar tied to page scroll
+const ScrollProgress = () => {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop;
+      const height = h.scrollHeight - h.clientHeight;
+      setProgress(height > 0 ? scrolled / height : 0);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+  return (
+    <div className="fixed top-0 left-0 right-0 z-[70] h-[2px] bg-transparent pointer-events-none" aria-hidden="true">
+      <div
+        className="scroll-progress h-full w-full"
+        style={{ transform: `scaleX(${progress})` }}
+      />
+    </div>
+  );
+};
+
+// Elegant infinite marquee — duplicates children for a seamless loop
+const Marquee = ({ items }: { items: string[] }) => (
+  <div className="marquee-mask w-full overflow-hidden py-2">
+    <div className="marquee-track gap-12 pr-12">
+      {[...items, ...items].map((item, i) => (
+        <span
+          key={i}
+          className="flex items-center gap-12 text-sm font-bold uppercase tracking-[0.25em] text-white/35 whitespace-nowrap"
+        >
+          {item}
+          <span className="h-1 w-1 rounded-full bg-brand-blue/50" aria-hidden="true" />
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
 const SectionHeading = ({ tag, title, sub, align = "center" }: { tag: string, title: string, sub: string, align?: "center" | "left" }) => (
   <div className={cn(
     "max-w-3xl mb-16 md:mb-24",
@@ -411,9 +457,15 @@ const Hero = ({ t }: { t: any }) => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden px-4 md:px-6 lg:px-8 bg-dark-bg" id="product">
+    <section ref={sectionRef} className="relative overflow-hidden px-4 md:px-6 lg:px-8 bg-dark-bg vignette" id="product">
       <Stars />
       <Aurora className="opacity-80" />
+      {/* Cinematic spotlight from the top */}
+      <div
+        className="absolute inset-x-0 top-0 h-[70vh] pointer-events-none"
+        style={{ background: 'radial-gradient(60% 50% at 50% 0%, rgba(96,165,250,0.16), transparent 70%)' }}
+        aria-hidden="true"
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#050816]/30 to-[#050816] pointer-events-none" aria-hidden="true" />
 
       <main ref={contentRef} className="container mx-auto min-h-[calc(100vh-80px)] flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10 w-full max-w-7xl pt-28 pb-16 lg:pt-0 lg:pb-0">
@@ -435,7 +487,7 @@ const Hero = ({ t }: { t: any }) => {
             text={t.hero.headline}
             as="h1"
             delay={0.1}
-            className="text-[36px] sm:text-5xl md:text-7xl lg:text-[72px] xl:text-[84px] font-black leading-[1.1] sm:leading-[1] md:leading-[0.95] tracking-tighter text-white break-words max-w-full"
+            className="text-[40px] sm:text-6xl md:text-7xl lg:text-[78px] xl:text-[92px] font-black leading-[1.05] sm:leading-[0.98] md:leading-[0.92] tracking-[-0.03em] text-white break-words max-w-full text-gradient-soft"
           />
 
           <motion.p 
@@ -488,11 +540,9 @@ const Hero = ({ t }: { t: any }) => {
             </PremiumLink>
           </motion.div>
 
-          <div className="flex items-center gap-6 md:gap-8 mt-10 opacity-30 grayscale flex-wrap">
-             <div className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">{t.hero.trustedBy}</div>
-             <div className="text-xs md:text-sm font-bold text-white tracking-tighter uppercase italic">NovaCart</div>
-             <div className="text-xs md:text-sm font-bold text-white tracking-tighter uppercase italic">StudioLoop</div>
-             <div className="text-xs md:text-sm font-bold text-white tracking-tighter uppercase italic">BloomDesk</div>
+          <div className="mt-10 max-w-xl">
+            <div className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600 mb-4">{t.hero.trustedBy}</div>
+            <Marquee items={['React', 'Next.js', 'GSAP', 'Framer Motion', 'Tailwind', 'Vercel', 'Automatización IA', 'Diseño Editorial']} />
           </div>
         </div>
 
@@ -503,7 +553,7 @@ const Hero = ({ t }: { t: any }) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4 }}
-            className="md:col-span-1 bg-white/5 border border-white/10 rounded-[2.5rem] p-6 backdrop-blur-xl flex flex-col group overflow-hidden relative"
+            className="float-a md:col-span-1 bg-white/5 border border-white/10 rounded-[2.5rem] p-6 backdrop-blur-xl flex flex-col group overflow-hidden relative"
           >
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-sm font-bold text-slate-200 uppercase tracking-tighter">{t.hero.unifiedInbox}</h3>
@@ -578,7 +628,7 @@ const Hero = ({ t }: { t: any }) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 }}
-            className="md:col-span-1 bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-white/10 rounded-[2.5rem] p-6 lg:p-8 relative overflow-hidden group"
+            className="float-c animate-gradient md:col-span-1 bg-gradient-to-br from-blue-600/15 to-purple-600/15 border border-white/10 rounded-[2.5rem] p-6 lg:p-8 relative overflow-hidden group"
           >
             <h3 className="text-sm font-bold text-slate-200 mb-2">{t.hero.conversionImpact}</h3>
             <div className="text-5xl font-bold tracking-tighter text-white">
@@ -883,15 +933,15 @@ const ServicesSection = ({ t }: { t: any }) => {
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {services.map((s, i) => (
-            <motion.div 
+            <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.09, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
-              className="p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] bg-white/[0.02] border border-white/5 hover:border-brand-blue/30 transition-all group flex flex-col items-start gap-6 md:gap-8"
+              className="card-premium sheen-host p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] bg-white/[0.02] border border-white/5 hover:border-brand-blue/30 hover:-translate-y-1.5 transition-all duration-600 group flex flex-col items-start gap-6 md:gap-8"
             >
-              <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-brand-blue/10 flex items-center justify-center text-brand-blue group-hover:scale-110 transition-transform">
+              <div className="glow-pulse w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-brand-blue/10 flex items-center justify-center text-brand-blue group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
                 {React.cloneElement(s.icon as React.ReactElement, { size: 20 })}
               </div>
               <div>
@@ -905,12 +955,14 @@ const ServicesSection = ({ t }: { t: any }) => {
           ))}
           
           {/* Niche Specific Card */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] bg-gradient-to-br from-brand-blue/20 via-brand-violet/10 to-transparent border border-brand-blue/30 flex flex-col justify-center items-start text-left gap-6 md:gap-8 relative overflow-hidden group min-h-[300px]"
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+            className="animate-gradient p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] bg-gradient-to-br from-brand-blue/25 via-brand-violet/15 to-transparent border border-brand-blue/30 flex flex-col justify-center items-start text-left gap-6 md:gap-8 relative overflow-hidden group min-h-[300px]"
           >
-             <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-40 transition-opacity">
+             <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-40 transition-opacity float-b">
                 <Sparkles className="text-brand-blue" size={80} />
              </div>
              <div>
@@ -1081,27 +1133,38 @@ const HowWeWork = ({ t }: { t: any }) => {
             sub={t.process.subheadline}
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-             {t.process.steps.map((step: any, i: number) => (
-               <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-brand-blue/30 transition-all group relative"
-               >
-                  <div className="text-4xl font-black text-white/5 absolute top-6 right-8 group-hover:text-brand-blue/10 transition-colors">0{i+1}</div>
-                  <div className="w-12 h-12 rounded-2xl bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue mb-8 group-hover:scale-110 transition-transform">
-                     {i === 0 && <Search size={20} />}
-                     {i === 1 && <Sparkles size={20} />}
-                     {i === 2 && <Code2 size={20} />}
-                     {i === 3 && <Rocket size={20} />}
-                  </div>
-                  <h3 className="text-lg md:text-xl font-bold text-white mb-3 md:mb-4 tracking-tight">{step.title}</h3>
-                  <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-medium">{step.desc}</p>
-               </motion.div>
-             ))}
+          <div className="relative">
+             {/* Animated connecting line (desktop) */}
+             <motion.div
+               initial={{ scaleX: 0 }}
+               whileInView={{ scaleX: 1 }}
+               viewport={{ once: true, amount: 0.4 }}
+               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+               className="hidden lg:block absolute top-[3.25rem] left-[12%] right-[12%] h-px origin-left bg-gradient-to-r from-transparent via-brand-blue/40 to-transparent"
+               aria-hidden="true"
+             />
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 relative">
+                {t.process.steps.map((step: any, i: number) => (
+                  <motion.div
+                   key={i}
+                   initial={{ opacity: 0, y: 24 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                   viewport={{ once: true }}
+                   className="card-premium p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-brand-blue/30 hover:-translate-y-1.5 transition-all duration-600 group relative"
+                  >
+                     <div className="outline-number absolute top-6 right-7 text-5xl font-black select-none" aria-hidden="true">0{i+1}</div>
+                     <div className="w-12 h-12 rounded-2xl bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue mb-8 shadow-lg shadow-brand-blue/10 group-hover:scale-110 group-hover:shadow-brand-blue/30 transition-all duration-500">
+                        {i === 0 && <Search size={20} />}
+                        {i === 1 && <Sparkles size={20} />}
+                        {i === 2 && <Code2 size={20} />}
+                        {i === 3 && <Rocket size={20} />}
+                     </div>
+                     <h3 className="text-lg md:text-xl font-bold text-white mb-3 md:mb-4 tracking-tight">{step.title}</h3>
+                     <p className="text-slate-500 text-xs md:text-sm leading-relaxed font-medium">{step.desc}</p>
+                  </motion.div>
+                ))}
+             </div>
           </div>
        </div>
     </section>
@@ -1434,15 +1497,16 @@ const Testimonials = ({ t }: { t: any }) => {
        <div className="container mx-auto px-6 md:px-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
              {testimonials.map((t, i) => (
-               <motion.div 
+               <motion.div
                  key={i}
-                 initial={{ opacity: 0, scale: 0.95 }}
-                 whileInView={{ opacity: 1, scale: 1 }}
-                 transition={{ delay: i * 0.1 }}
-                 className="p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] bg-white/[0.02] border border-white/5 flex flex-col items-start gap-8 md:gap-10 hover:bg-white/[0.04] transition-all duration-500"
+                 initial={{ opacity: 0, y: 28, scale: 0.96 }}
+                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                 transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                 viewport={{ once: true, amount: 0.3 }}
+                 className="card-premium sheen-host group p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] bg-white/[0.02] border border-white/5 flex flex-col items-start gap-8 md:gap-10 hover:bg-white/[0.04] hover:-translate-y-1.5 transition-all duration-600"
                >
                   <div className="flex gap-1 text-blue-400">
-                    {[1, 2, 3, 4, 5].map(s => <Star key={s} size={12} fill="currentColor" />)}
+                    {[1, 2, 3, 4, 5].map(s => <Star key={s} size={12} fill="currentColor" className="transition-transform duration-300 group-hover:scale-110" />)}
                   </div>
                   <p className="text-lg md:text-xl text-white italic font-medium leading-relaxed tracking-tight group-hover:text-blue-50 transition-colors">"{t.quote}"</p>
                   <div className="flex items-center gap-4 md:gap-5 mt-auto">
@@ -2109,6 +2173,8 @@ export default function App() {
     <div ref={appRef} className="min-h-screen bg-dark-bg selection:bg-brand-blue/30 selection:text-white overflow-x-hidden relative font-sans">
       <SmoothScroll />
       <MouseGlow />
+      <div className="grain-overlay" aria-hidden="true" />
+      <ScrollProgress />
       <Navbar t={t} lang={lang} setLang={setLang} />
       <main>
         <Hero t={t} />

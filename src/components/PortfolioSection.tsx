@@ -176,8 +176,8 @@ const DemoMockup = ({ category, name }: { category: Category; name: string }) =>
   );
 };
 
-type PortfolioCardProps = { demo: Demo; t: any };
-const PortfolioCard: React.FC<PortfolioCardProps> = ({ demo, t }) => {
+type PortfolioCardProps = { demo: Demo; t: any; index: number };
+const PortfolioCard: React.FC<PortfolioCardProps> = ({ demo, t, index }) => {
   const style = categoryStyle[demo.category];
   return (
     <motion.article
@@ -187,15 +187,23 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ demo, t }) => {
       exit={{ opacity: 0, y: -16, scale: 0.97 }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        'group relative flex flex-col gap-5 p-5 sm:p-6 rounded-[1.75rem] md:rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl transition-all duration-700',
-        'hover:-translate-y-1.5 hover:bg-white/[0.05] shadow-xl shadow-black/40',
+        'card-premium group relative flex flex-col gap-5 p-5 sm:p-6 rounded-[1.75rem] md:rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl',
+        'hover:-translate-y-2 hover:bg-white/[0.05] shadow-xl shadow-black/40',
         style.ring,
         style.glow
       )}
     >
+      {/* Editorial index number */}
+      <span
+        className="outline-number pointer-events-none absolute top-4 right-5 text-5xl md:text-6xl font-black select-none z-10"
+        aria-hidden="true"
+      >
+        {String(index + 1).padStart(2, '0')}
+      </span>
+
       {/* Mockup */}
       <div className="overflow-hidden rounded-2xl">
-        <div className="transition-transform duration-700 group-hover:scale-[1.04]">
+        <div className="transition-transform duration-700 group-hover:scale-[1.05]">
           <DemoMockup category={demo.category} name={demo.name} />
         </div>
       </div>
@@ -337,8 +345,8 @@ export const PortfolioSection = ({ t }: { t: any }) => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7"
         >
           <AnimatePresence mode="popLayout">
-            {filtered.map((demo: Demo) => (
-              <PortfolioCard key={demo.id} demo={demo} t={t} />
+            {filtered.map((demo: Demo, i: number) => (
+              <PortfolioCard key={demo.id} demo={demo} t={t} index={i} />
             ))}
           </AnimatePresence>
         </motion.div>

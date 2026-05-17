@@ -14,7 +14,7 @@ const baseClasses = 'group relative inline-flex items-center justify-center gap-
 
 const variantClasses: Record<NonNullable<AnchorProps['variant']>, string> = {
   primary:
-    'bg-brand-blue text-white shadow-2xl shadow-blue-600/30 hover:shadow-blue-600/60 hover:scale-[1.04]',
+    'bg-gradient-to-br from-blue-500 to-brand-blue text-white shadow-2xl shadow-blue-600/40 hover:shadow-blue-500/70 hover:scale-[1.04] ring-1 ring-white/10',
   secondary:
     'bg-white/5 border border-white/10 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/20',
   ghost:
